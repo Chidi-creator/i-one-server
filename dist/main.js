@@ -130,6 +130,10 @@ __exportStar(__webpack_require__(/*! ./schemas/abstract.repository */ "./libs/co
 __exportStar(__webpack_require__(/*! ./filters/http-exception.filter */ "./libs/common/src/filters/http-exception.filter.ts"), exports);
 __exportStar(__webpack_require__(/*! ./schemas/abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts"), exports);
 __exportStar(__webpack_require__(/*! ./schemas/user.schema */ "./libs/common/src/schemas/user.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./schemas/sets.schema */ "./libs/common/src/schemas/sets.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./schemas/session.schema */ "./libs/common/src/schemas/session.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./schemas/match.schema */ "./libs/common/src/schemas/match.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./schemas/location.schema */ "./libs/common/src/schemas/location.schema.ts"), exports);
 __exportStar(__webpack_require__(/*! ./utils/phone.number */ "./libs/common/src/utils/phone.number.ts"), exports);
 __exportStar(__webpack_require__(/*! ./typings/global.interface */ "./libs/common/src/typings/global.interface.ts"), exports);
 __exportStar(__webpack_require__(/*! ./decorators/currentUser.decorator */ "./libs/common/src/decorators/currentUser.decorator.ts"), exports);
@@ -226,6 +230,9 @@ class AbstractRepository {
     async update(filterQuery, update) {
         return await new Promise((resolve) => resolve(this.model.updateOne(filterQuery, update)));
     }
+    async updateMany(filterQuery, update) {
+        return await new Promise((resolve) => resolve(this.model.updateMany(filterQuery, update, { new: true })));
+    }
     async findAndUpdate(filterQuery, update) {
         return await new Promise((resolve) => {
             resolve(this.model.updateMany(filterQuery, update).sort({ createdAt: 'desc' }));
@@ -282,6 +289,244 @@ exports.AbstractDocument = AbstractDocument = __decorate([
 
 /***/ }),
 
+/***/ "./libs/common/src/schemas/location.schema.ts":
+/*!****************************************************!*\
+  !*** ./libs/common/src/schemas/location.schema.ts ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LocationSchema = exports.Location = void 0;
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const abstract_schema_1 = __webpack_require__(/*! ./abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts");
+const common_1 = __webpack_require__(/*! ../types/common */ "./libs/common/src/types/common.ts");
+let Location = class Location extends abstract_schema_1.AbstractDocument {
+};
+exports.Location = Location;
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: String }),
+    __metadata("design:type", String)
+], Location.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, type: String }),
+    __metadata("design:type", String)
+], Location.prototype, "address", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: {
+            type: String,
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            default: [0, 0]
+        }
+    }),
+    __metadata("design:type", typeof (_a = typeof common_1.LocationCoordinates !== "undefined" && common_1.LocationCoordinates) === "function" ? _a : Object)
+], Location.prototype, "location", void 0);
+exports.Location = Location = __decorate([
+    (0, mongoose_1.Schema)()
+], Location);
+exports.LocationSchema = mongoose_1.SchemaFactory.createForClass(Location);
+exports.LocationSchema.index({ location: '2dsphere' });
+
+
+/***/ }),
+
+/***/ "./libs/common/src/schemas/match.schema.ts":
+/*!*************************************************!*\
+  !*** ./libs/common/src/schemas/match.schema.ts ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MatchSchema = exports.Match = void 0;
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const abstract_schema_1 = __webpack_require__(/*! ./abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts");
+let Match = class Match extends abstract_schema_1.AbstractDocument {
+};
+exports.Match = Match;
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Set' }),
+    __metadata("design:type", String)
+], Match.prototype, "teamOne", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Set' }),
+    __metadata("design:type", String)
+], Match.prototype, "teamTwo", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 0 }),
+    __metadata("design:type", Number)
+], Match.prototype, "teamOneScore", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Number, default: 0 }),
+    __metadata("design:type", Number)
+], Match.prototype, "teamTwoScore", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Boolean, default: false }),
+    __metadata("design:type", Boolean)
+], Match.prototype, "isStarted", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Session' }),
+    __metadata("design:type", String)
+], Match.prototype, "session", void 0);
+exports.Match = Match = __decorate([
+    (0, mongoose_1.Schema)({ timestamps: true })
+], Match);
+exports.MatchSchema = mongoose_1.SchemaFactory.createForClass(Match);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/schemas/session.schema.ts":
+/*!***************************************************!*\
+  !*** ./libs/common/src/schemas/session.schema.ts ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionSchema = exports.Session = void 0;
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const abstract_schema_1 = __webpack_require__(/*! ./abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts");
+class Session extends abstract_schema_1.AbstractDocument {
+}
+exports.Session = Session;
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Location' }),
+    __metadata("design:type", String)
+], Session.prototype, "location", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Session.prototype, "playersPerTeam", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Session.prototype, "setNumber", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Session.prototype, "minsPerSet", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Session.prototype, "timeDuration", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
+], Session.prototype, "startTime", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+], Session.prototype, "stopTime", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", String)
+], Session.prototype, "winningDecider", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Session.prototype, "inProgress", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Session.prototype, "finished", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User' }),
+    __metadata("design:type", String)
+], Session.prototype, "captain", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'User' }] }),
+    __metadata("design:type", Array)
+], Session.prototype, "members", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Session.prototype, "maxNumber", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: false }),
+    __metadata("design:type", Boolean)
+], Session.prototype, "isFull", void 0);
+exports.SessionSchema = mongoose_1.SchemaFactory.createForClass(Session);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/schemas/sets.schema.ts":
+/*!************************************************!*\
+  !*** ./libs/common/src/schemas/sets.schema.ts ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetSchema = exports.Set = void 0;
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+const abstract_schema_1 = __webpack_require__(/*! ./abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts");
+class Set extends abstract_schema_1.AbstractDocument {
+}
+exports.Set = Set;
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Session' }),
+    __metadata("design:type", String)
+], Set.prototype, "session", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(String),
+    __metadata("design:type", String)
+], Set.prototype, "name", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User' }),
+    __metadata("design:type", Array)
+], Set.prototype, "players", void 0);
+exports.SetSchema = mongoose_1.SchemaFactory.createForClass(Set);
+
+
+/***/ }),
+
 /***/ "./libs/common/src/schemas/user.schema.ts":
 /*!************************************************!*\
   !*** ./libs/common/src/schemas/user.schema.ts ***!
@@ -304,6 +549,7 @@ exports.UserSchema = exports.User = void 0;
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
 const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
 const abstract_schema_1 = __webpack_require__(/*! ./abstract.schema */ "./libs/common/src/schemas/abstract.schema.ts");
+const common_1 = __webpack_require__(/*! ../types/common */ "./libs/common/src/types/common.ts");
 let User = class User extends abstract_schema_1.AbstractDocument {
 };
 exports.User = User;
@@ -345,7 +591,7 @@ __decorate([
 ], User.prototype, "isCaptain", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "Session", default: null }),
-    __metadata("design:type", typeof (_a = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _a : Object)
+    __metadata("design:type", String)
 ], User.prototype, "currentSession", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: Number, default: null }),
@@ -353,7 +599,7 @@ __decorate([
 ], User.prototype, "otp", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: Date, default: null }),
-    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
 ], User.prototype, "otpExpiration", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: Boolean, default: null }),
@@ -362,26 +608,21 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         type: {
-            address: { type: String },
-            location: {
-                type: {
-                    type: String,
-                    enum: ["Point"],
-                    default: "Point"
-                },
-                coordinates: {
-                    type: [Number]
-                },
-            },
+            type: String,
+            default: 'Point'
         },
+        coordinates: {
+            type: [Number],
+            default: [0, 0]
+        }
     }),
-    __metadata("design:type", Object)
-], User.prototype, "locationInfo", void 0);
+    __metadata("design:type", typeof (_b = typeof common_1.LocationCoordinates !== "undefined" && common_1.LocationCoordinates) === "function" ? _b : Object)
+], User.prototype, "location", void 0);
 exports.User = User = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], User);
 exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-exports.UserSchema.index({ "locationInfo.location": "2dsphere" });
+exports.UserSchema.index({ location: '2dsphere' });
 
 
 /***/ }),
@@ -562,6 +803,10 @@ const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
 const jwt_1 = __webpack_require__(/*! @nestjs/jwt */ "@nestjs/jwt");
 const auth_module_1 = __webpack_require__(/*! ./auth/auth.module */ "./src/auth/auth.module.ts");
+const sets_module_1 = __webpack_require__(/*! ./sets/sets.module */ "./src/sets/sets.module.ts");
+const sessions_module_1 = __webpack_require__(/*! ./sessions/sessions.module */ "./src/sessions/sessions.module.ts");
+const matches_module_1 = __webpack_require__(/*! ./matches/matches.module */ "./src/matches/matches.module.ts");
+const locations_module_1 = __webpack_require__(/*! ./locations/locations.module */ "./src/locations/locations.module.ts");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -584,8 +829,12 @@ exports.AppModule = AppModule = __decorate([
                 inject: [config_1.ConfigService],
             }),
             database_module_1.DatabaseModule,
+            auth_module_1.AuthModule,
             users_module_1.UsersModule,
-            auth_module_1.AuthModule
+            sets_module_1.SetsModule,
+            sessions_module_1.SessionsModule,
+            matches_module_1.MatchesModule,
+            locations_module_1.LocationsModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
@@ -656,7 +905,6 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async login(user, response) {
-        console.log('hit');
         return await this.authService.login(user, response);
     }
     async logout(response) {
@@ -954,6 +1202,110 @@ exports.DatabaseModule = DatabaseModule = __decorate([
 
 /***/ }),
 
+/***/ "./src/locations/locations.module.ts":
+/*!*******************************************!*\
+  !*** ./src/locations/locations.module.ts ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LocationsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let LocationsModule = class LocationsModule {
+};
+exports.LocationsModule = LocationsModule;
+exports.LocationsModule = LocationsModule = __decorate([
+    (0, common_1.Module)({})
+], LocationsModule);
+
+
+/***/ }),
+
+/***/ "./src/matches/matches.module.ts":
+/*!***************************************!*\
+  !*** ./src/matches/matches.module.ts ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MatchesModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let MatchesModule = class MatchesModule {
+};
+exports.MatchesModule = MatchesModule;
+exports.MatchesModule = MatchesModule = __decorate([
+    (0, common_1.Module)({})
+], MatchesModule);
+
+
+/***/ }),
+
+/***/ "./src/sessions/sessions.module.ts":
+/*!*****************************************!*\
+  !*** ./src/sessions/sessions.module.ts ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let SessionsModule = class SessionsModule {
+};
+exports.SessionsModule = SessionsModule;
+exports.SessionsModule = SessionsModule = __decorate([
+    (0, common_1.Module)({})
+], SessionsModule);
+
+
+/***/ }),
+
+/***/ "./src/sets/sets.module.ts":
+/*!*********************************!*\
+  !*** ./src/sets/sets.module.ts ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetsModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+let SetsModule = class SetsModule {
+};
+exports.SetsModule = SetsModule;
+exports.SetsModule = SetsModule = __decorate([
+    (0, common_1.Module)({})
+], SetsModule);
+
+
+/***/ }),
+
 /***/ "./src/users/dto/user.dto.ts":
 /*!***********************************!*\
   !*** ./src/users/dto/user.dto.ts ***!
@@ -970,34 +1322,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResetPasswordDto = exports.VerifyOtpDto = exports.ForgotPasswordDto = exports.registerUserRequest = void 0;
-const class_transformer_1 = __webpack_require__(/*! class-transformer */ "class-transformer");
+const common_1 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
 const class_validator_1 = __webpack_require__(/*! class-validator */ "class-validator");
-class Location {
-}
-__decorate([
-    (0, class_validator_1.IsEnum)(["Point"], { message: "Location type must be 'Point' " }),
-    __metadata("design:type", String)
-], Location.prototype, "type", void 0);
-__decorate([
-    (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayMinSize)(2),
-    (0, class_validator_1.IsNumber)({}, { each: true }),
-    __metadata("design:type", Array)
-], Location.prototype, "coordinates", void 0);
-class LocationInfo {
-}
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], LocationInfo.prototype, "address", void 0);
-__decorate([
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => Location),
-    __metadata("design:type", Location)
-], LocationInfo.prototype, "location", void 0);
 class registerUserRequest {
 }
 exports.registerUserRequest = registerUserRequest;
@@ -1043,10 +1372,9 @@ __decorate([
     __metadata("design:type", String)
 ], registerUserRequest.prototype, "position", void 0);
 __decorate([
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => LocationInfo),
-    __metadata("design:type", LocationInfo)
-], registerUserRequest.prototype, "locationInfo", void 0);
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", typeof (_a = typeof common_1.LocationCoordinates !== "undefined" && common_1.LocationCoordinates) === "function" ? _a : Object)
+], registerUserRequest.prototype, "location", void 0);
 class ForgotPasswordDto {
 }
 exports.ForgotPasswordDto = ForgotPasswordDto;
@@ -1108,12 +1436,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UsersController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const users_service_1 = __webpack_require__(/*! ./users.service */ "./src/users/users.service.ts");
 const user_dto_1 = __webpack_require__(/*! ./dto/user.dto */ "./src/users/dto/user.dto.ts");
+const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -1127,7 +1456,7 @@ let UsersController = class UsersController {
     async verifyOtp(data) {
         return this.usersService.verifyOtp(data);
     }
-    async resetPassword(data) {
+    async resetPassword(data, user) {
         return this.usersService.resetPassword(data);
     }
 };
@@ -1156,8 +1485,9 @@ __decorate([
 __decorate([
     (0, common_1.Put)('reset-password'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_2.CurrentUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_e = typeof user_dto_1.ResetPasswordDto !== "undefined" && user_dto_1.ResetPasswordDto) === "function" ? _e : Object]),
+    __metadata("design:paramtypes", [typeof (_e = typeof user_dto_1.ResetPasswordDto !== "undefined" && user_dto_1.ResetPasswordDto) === "function" ? _e : Object, typeof (_f = typeof common_2.User !== "undefined" && common_2.User) === "function" ? _f : Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "resetPassword", null);
 exports.UsersController = UsersController = __decorate([
@@ -1294,7 +1624,7 @@ let UsersService = UsersService_1 = class UsersService {
         this.mailService = mailService;
         this.logger = new common_1.Logger(UsersService_1.name);
     }
-    async registerUser({ firstName, lastName, nickname, email, password, phoneNumber, address, position, locationInfo }) {
+    async registerUser({ firstName, lastName, nickname, email, password, phoneNumber, address, position, location }) {
         const formattedPhone = (0, common_2.internationalisePhoneNumber)(phoneNumber);
         await this.checkExistingUser(phoneNumber, email, nickname);
         const payload = {
@@ -1304,7 +1634,7 @@ let UsersService = UsersService_1 = class UsersService {
             address,
             lastName,
             firstName,
-            locationInfo,
+            location,
             position
         };
         try {
@@ -1490,16 +1820,6 @@ module.exports = require("@nestjs/passport");
 /***/ ((module) => {
 
 module.exports = require("bcrypt");
-
-/***/ }),
-
-/***/ "class-transformer":
-/*!************************************!*\
-  !*** external "class-transformer" ***!
-  \************************************/
-/***/ ((module) => {
-
-module.exports = require("class-transformer");
 
 /***/ }),
 
