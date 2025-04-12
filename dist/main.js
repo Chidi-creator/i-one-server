@@ -1046,6 +1046,23 @@ exports.AuthService = AuthService = __decorate([
 
 /***/ }),
 
+/***/ "./src/auth/guards/jwt.guard.ts":
+/*!**************************************!*\
+  !*** ./src/auth/guards/jwt.guard.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.JwtAuthGuard = void 0;
+const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
+class JwtAuthGuard extends (0, passport_1.AuthGuard)('jwt') {
+}
+exports.JwtAuthGuard = JwtAuthGuard;
+
+
+/***/ }),
+
 /***/ "./src/auth/guards/local.guard.ts":
 /*!****************************************!*\
   !*** ./src/auth/guards/local.guard.ts ***!
@@ -1228,6 +1245,49 @@ exports.LocationsModule = LocationsModule = __decorate([
 
 /***/ }),
 
+/***/ "./src/locations/locations.repository.ts":
+/*!***********************************************!*\
+  !*** ./src/locations/locations.repository.ts ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var LocationRepository_1;
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LocationRepository = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let LocationRepository = LocationRepository_1 = class LocationRepository extends common_2.AbstractRepository {
+    constructor(LocationModel) {
+        super(LocationModel);
+        this.logger = new common_1.Logger(LocationRepository_1.name);
+    }
+};
+exports.LocationRepository = LocationRepository;
+exports.LocationRepository = LocationRepository = LocationRepository_1 = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(common_2.Location.name)),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], LocationRepository);
+
+
+/***/ }),
+
 /***/ "./src/matches/matches.module.ts":
 /*!***************************************!*\
   !*** ./src/matches/matches.module.ts ***!
@@ -1254,6 +1314,242 @@ exports.MatchesModule = MatchesModule = __decorate([
 
 /***/ }),
 
+/***/ "./src/matches/matches.repository.ts":
+/*!*******************************************!*\
+  !*** ./src/matches/matches.repository.ts ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var MatchRepository_1;
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MatchRepository = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let MatchRepository = MatchRepository_1 = class MatchRepository extends common_2.AbstractRepository {
+    constructor(MatchModel) {
+        super(MatchModel);
+        this.logger = new common_1.Logger(MatchRepository_1.name);
+    }
+};
+exports.MatchRepository = MatchRepository;
+exports.MatchRepository = MatchRepository = MatchRepository_1 = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(common_2.Match.name)),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], MatchRepository);
+
+
+/***/ }),
+
+/***/ "./src/sessions/session.service.ts":
+/*!*****************************************!*\
+  !*** ./src/sessions/session.service.ts ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b, _c, _d;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionsService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const sessions_repository_1 = __webpack_require__(/*! ../sessions/sessions.repository */ "./src/sessions/sessions.repository.ts");
+const locations_repository_1 = __webpack_require__(/*! ../locations/locations.repository */ "./src/locations/locations.repository.ts");
+const matches_repository_1 = __webpack_require__(/*! ../matches/matches.repository */ "./src/matches/matches.repository.ts");
+const users_repository_1 = __webpack_require__(/*! ../users/users.repository */ "./src/users/users.repository.ts");
+const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
+let SessionsService = class SessionsService {
+    constructor(sessionRepository, locationRepository, matchRepository, userRepository) {
+        this.sessionRepository = sessionRepository;
+        this.locationRepository = locationRepository;
+        this.matchRepository = matchRepository;
+        this.userRepository = userRepository;
+    }
+    async findNearbySessionMatches(lng, lat) {
+        const nearbyLocations = await this.locationRepository.find({
+            location: {
+                $near: {
+                    $geometry: {
+                        type: 'Point',
+                        coordinates: [lng, lat]
+                    },
+                    $maxDistance: 5000
+                }
+            }
+        });
+        const locationIds = nearbyLocations.map(loc => loc._id);
+        const locatedSessions = await this.sessionRepository.find({ location: { $in: locationIds } });
+        const sessionIds = locatedSessions.map(session => session._id);
+        return this.matchRepository.findAndPopulate({ session: { $in: sessionIds } }, ['teamOne', 'teamTwo']);
+    }
+    async startSession(userId, locationId) {
+        const user = await this.userRepository.findOne({ _id: userId });
+        if (user == null) {
+            throw new common_2.CustomHttpException('User not found', common_1.HttpStatus.NOT_FOUND);
+        }
+        await this.userRepository.findOneAndUpdate({
+            _id: userId
+        }, { isCaptain: true });
+        const session = await this.sessionRepository.create({ location: locationId, captain: userId });
+        await this.userRepository.findOneAndUpdate({ _id: userId }, { currentSession: session._id });
+        return session;
+    }
+    async endSession(sessionId) {
+        const session = await this.sessionRepository.findOne({ _id: sessionId });
+        if (!session)
+            throw new common_2.CustomHttpException("Session not found", common_1.HttpStatus.NOT_FOUND);
+        await Promise.all(session.members.map(async (memberId) => {
+            const user = await this.userRepository.findOne({ _id: memberId.toString() });
+            if (user !== null) {
+                await this.userRepository.findOneAndUpdate({ _id: memberId.toString() }, { currentSession: null, isCaptain: false });
+            }
+        }));
+        await this.sessionRepository.findOneAndUpdate({
+            _id: session._id.toString()
+        }, { captain: null, inProgress: false });
+        return { message: 'Session ended successfully', session };
+    }
+    async joinSession(userId, sessionId) {
+        const session = await this.sessionRepository.findOne({ _id: sessionId });
+        if (!session)
+            throw new common_2.CustomHttpException('Session not found', common_1.HttpStatus.NOT_FOUND);
+        if (session.members.includes(userId)) {
+            throw new common_2.CustomHttpException('User is already in the session', common_1.HttpStatus.CONFLICT);
+        }
+        if (session.isFull) {
+            throw new common_2.CustomHttpException('Session is full', common_1.HttpStatus.BAD_REQUEST);
+        }
+        const updatedSession = await this.sessionRepository.findOneAndUpdate({ _id: sessionId }, { $push: { members: userId }, $set: { isFull: session.members.length + 1 >= session.maxNumber } });
+        await this.userRepository.findOneAndUpdate({ _id: userId }, { currentSession: sessionId });
+        return { message: 'User successfully joined session', session: updatedSession };
+    }
+    async leaveSession(userId, sessionId) {
+        const session = await this.sessionRepository.findOne({ _id: sessionId });
+        if (!session)
+            throw new common_2.CustomHttpException('Session not found', common_1.HttpStatus.NOT_FOUND);
+        const user = await this.userRepository.findOne({ _id: userId });
+        if (!user)
+            throw new common_2.CustomHttpException('User not found', common_1.HttpStatus.NOT_FOUND);
+        try {
+            await this.sessionRepository.findOneAndUpdate({ _id: sessionId }, {
+                $pull: { members: userId },
+                $set: { isFull: session.members.length - 1 >= session.maxNumber },
+            });
+            await this.userRepository.findOneAndUpdate({ _id: userId }, { currentSession: null });
+            const updatedSession = await this.sessionRepository.findOne({ _id: sessionId });
+            return { message: 'User successfully left session', session: updatedSession };
+        }
+        catch (error) {
+            throw new common_2.CustomHttpException('Failed to leave session', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async viewAllSessions() {
+        return this.sessionRepository.findAndPopulate({ finished: false }, ['captain', 'members', 'location']);
+    }
+    async deleteSession(sessionId) {
+        const session = await this.sessionRepository.findOne({ _id: sessionId });
+        if (!session)
+            throw new common_2.CustomHttpException('Session not found', common_1.HttpStatus.NOT_FOUND);
+        const updateQuery = {
+            $set: { currentSession: null, isCaptain: false }
+        };
+        await this.userRepository.updateMany({ _id: { $in: session.members } }, updateQuery);
+        await this.sessionRepository.delete(session._id);
+        return { message: 'Session deleted successfully' };
+    }
+    async recheduleSession(sessionId, startTime, timeDuration) {
+        const session = await this.sessionRepository.findOne({ _id: sessionId });
+        if (!session) {
+            throw new common_2.CustomHttpException('Session not found', common_1.HttpStatus.NOT_FOUND);
+        }
+        const addedStopTime = new Date(new Date(startTime).getTime() + timeDuration * 60000);
+        const existingSchedule = await this.sessionRepository.findOne({
+            startTime,
+            stopTime: addedStopTime,
+        });
+        if (existingSchedule) {
+            throw new common_2.CustomHttpException('Session Time already exists', common_1.HttpStatus.CONFLICT);
+        }
+        const overlappingSchedule = await this.sessionRepository.findOne({
+            _id: { $ne: sessionId },
+            startTime: { $lt: addedStopTime },
+            stopTime: { $gt: startTime },
+        });
+        if (overlappingSchedule) {
+            throw new common_2.CustomHttpException('This session overlaps with another one', common_1.HttpStatus.CONFLICT);
+        }
+        const updatedSession = await this.sessionRepository.findOneAndUpdate({ _id: sessionId }, {
+            startTime,
+            timeDuration,
+            stopTime: addedStopTime,
+        });
+        return {
+            message: 'Session rescheduled successfully',
+            session: updatedSession,
+        };
+    }
+};
+exports.SessionsService = SessionsService;
+exports.SessionsService = SessionsService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [typeof (_a = typeof sessions_repository_1.SessionRepository !== "undefined" && sessions_repository_1.SessionRepository) === "function" ? _a : Object, typeof (_b = typeof locations_repository_1.LocationRepository !== "undefined" && locations_repository_1.LocationRepository) === "function" ? _b : Object, typeof (_c = typeof matches_repository_1.MatchRepository !== "undefined" && matches_repository_1.MatchRepository) === "function" ? _c : Object, typeof (_d = typeof users_repository_1.UserRepository !== "undefined" && users_repository_1.UserRepository) === "function" ? _d : Object])
+], SessionsService);
+
+
+/***/ }),
+
+/***/ "./src/sessions/sessions.controller.ts":
+/*!*********************************************!*\
+  !*** ./src/sessions/sessions.controller.ts ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionsController = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const jwt_guard_1 = __webpack_require__(/*! src/auth/guards/jwt.guard */ "./src/auth/guards/jwt.guard.ts");
+let SessionsController = class SessionsController {
+};
+exports.SessionsController = SessionsController;
+exports.SessionsController = SessionsController = __decorate([
+    (0, common_1.Controller)('sessions'),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard)
+], SessionsController);
+
+
+/***/ }),
+
 /***/ "./src/sessions/sessions.module.ts":
 /*!*****************************************!*\
   !*** ./src/sessions/sessions.module.ts ***!
@@ -1269,13 +1565,82 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SessionsModule = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const common_1 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
+const common_2 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const session_service_1 = __webpack_require__(/*! ./session.service */ "./src/sessions/session.service.ts");
+const sessions_controller_1 = __webpack_require__(/*! ./sessions.controller */ "./src/sessions/sessions.controller.ts");
+const users_repository_1 = __webpack_require__(/*! src/users/users.repository */ "./src/users/users.repository.ts");
+const locations_repository_1 = __webpack_require__(/*! src/locations/locations.repository */ "./src/locations/locations.repository.ts");
+const matches_repository_1 = __webpack_require__(/*! src/matches/matches.repository */ "./src/matches/matches.repository.ts");
+const sessions_repository_1 = __webpack_require__(/*! ./sessions.repository */ "./src/sessions/sessions.repository.ts");
 let SessionsModule = class SessionsModule {
 };
 exports.SessionsModule = SessionsModule;
 exports.SessionsModule = SessionsModule = __decorate([
-    (0, common_1.Module)({})
+    (0, common_2.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forFeature([
+                { name: common_1.Session.name, schema: common_1.SessionSchema },
+                { name: common_1.User.name, schema: common_1.UserSchema },
+                { name: common_1.Location.name, schema: common_1.LocationSchema },
+                { name: common_1.Match.name, schema: common_1.MatchSchema },
+            ])
+        ],
+        controllers: [sessions_controller_1.SessionsController],
+        providers: [
+            session_service_1.SessionsService,
+            sessions_repository_1.SessionRepository,
+            users_repository_1.UserRepository,
+            locations_repository_1.LocationRepository,
+            matches_repository_1.MatchRepository,
+        ],
+        exports: [session_service_1.SessionsService]
+    })
 ], SessionsModule);
+
+
+/***/ }),
+
+/***/ "./src/sessions/sessions.repository.ts":
+/*!*********************************************!*\
+  !*** ./src/sessions/sessions.repository.ts ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var SessionRepository_1;
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionRepository = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const common_2 = __webpack_require__(/*! @app/common */ "./libs/common/src/index.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let SessionRepository = SessionRepository_1 = class SessionRepository extends common_2.AbstractRepository {
+    constructor(SessionModel) {
+        super(SessionModel);
+        this.logger = new common_1.Logger(SessionRepository_1.name);
+    }
+};
+exports.SessionRepository = SessionRepository;
+exports.SessionRepository = SessionRepository = SessionRepository_1 = __decorate([
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(common_2.Session.name)),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
+], SessionRepository);
 
 
 /***/ }),
